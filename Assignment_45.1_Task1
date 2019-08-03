@@ -1,0 +1,61 @@
+[acadgild@localhost ~]$ spark-shell
+2018-09-23 11:12:08 WARN  Utils:66 - Your hostname, localhost.localdomain resolves to a loopback address: 127.0.0.1; using 10.0.2.15 instead (on interface eth1)
+2018-09-23 11:12:08 WARN  Utils:66 - Set SPARK_LOCAL_IP if you need to bind to another address
+2018-09-23 11:12:10 WARN  NativeCodeLoader:62 - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+Spark context Web UI available at http://10.0.2.15:4040
+Spark context available as 'sc' (master = local[*], app id = local-1537681355569).
+Spark session available as 'spark'.
+Welcome to
+      ____              __
+     / __/__  ___ _____/ /__
+    _\ \/ _ \/ _ `/ __/  '_/
+   /___/ .__/\_,_/_/ /_/\_\   version 2.3.0
+      /_/
+         
+Using Scala version 2.11.8 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_161)
+Type in expressions to have them evaluated.
+Type :help for more information.
+
+Task 1
+Given a list of numbers - List[Int] (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+
+scala> val list_of_elements = List(1,2,3,4,5,6,7,8,9,10)
+list_of_elements: List[Int] = List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+scala> val parallelized_list = sc.parallelize(list_of_elements)
+parallelized_list: org.apache.spark.rdd.RDD[Int] = ParallelCollectionRDD[0] at parallelize at <console>:26
+
+- find the total elements in the list
+
+scala> parallelized_list.count
+res0: Long = 10                                                                 
+
+- find the sum of all numbers
+scala> parallelized_list.sum
+res1: Double = 55.0
+
+- calculate the average of the numbers in the list
+
+scala> parallelized_list.sum/parallelized_list.count
+count   countApprox   countApproxDistinct   countAsync   countByValue   countByValueApprox
+
+scala> parallelized_list.sum/parallelized_list.count
+res2: Double = 5.5
+
+- find the sum of all the even numbers in the list
+
+scala> parallelized_list.filter(i => (i%2==0))
+res3: org.apache.spark.rdd.RDD[Int] = MapPartitionsRDD[3] at filter at <console>:26
+
+scala> parallelized_list.filter(i => (i%2==0)).sum
+res4: Double = 30.0
+
+- find the total number of elements in the list divisible by both 5 and 3
+
+scala> parallelized_list.filter(i => (i%5==0)&(i%3==0)).count
+res5: Long = 0
+
+
